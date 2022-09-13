@@ -37,8 +37,8 @@ class StudentsList extends ConsumerWidget {
                     icon: ref
                             .watch(studentProvider)
                             .doILove(ref.watch(studentProvider).student[index])
-                        ? const Icon(Icons.abc)
-                        : const Icon(Icons.favorite)),
+                        ? const Icon(Icons.favorite)
+                        : const Icon(Icons.favorite_border_outlined)),
               );
             },
           ))

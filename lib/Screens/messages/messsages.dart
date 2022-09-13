@@ -12,15 +12,6 @@ class Messages extends ConsumerStatefulWidget {
 }
 
 class _MessagesState extends ConsumerState<Messages> {
-  List messages = [
-    "safasdfasdf",
-    "asdfasdfdaf",
-    "sdfsgdfgsadf",
-    "sadfsgasdgasgd",
-    "sadfasasdfasd",
-  ];
-  Message m = Message();
-  String? sendMessage;
   bool reverse = true;
   @override
   void initState() {
@@ -31,38 +22,68 @@ class _MessagesState extends ConsumerState<Messages> {
     super.initState();
   }
 
+  String? sendMessage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [IconButton(onPressed: (() {}), icon: Icon(Icons.abc))],
+          actions: [
+            IconButton(
+                onPressed: (() {
+                  ref.refresh(messageRef);
+                }),
+                icon: const Icon(Icons.clear_all))
+          ],
           centerTitle: true,
-          title: const Text("Mesajlaşma"),
+          title: const Text("Mesajlar"),
         ),
         body: Column(
           children: [
             Expanded(
               child: ListView.builder(
                 reverse: reverse,
-                itemCount: messages.length,
+                itemCount: ref.watch(messageRef).m.length,
                 itemBuilder: (context, index) {
                   bool? me = Random().nextBool();
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: me == true
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          color: Colors.greenAccent,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          // border: Border.all(color: Colors.green, width: 2),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          child: Text("${messages[index]}"),
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: me == true
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            color: Colors.greenAccent,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            // border: Border.all(color: Colors.green, width: 2),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                      "${ref.watch(messageRef).m[index].text}"),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      "${ref.watch(messageRef).m[index].time!.hour}"
+                                      ":"
+                                      "${ref.watch(messageRef).m[index].time!.minute}",
+                                      style: const TextStyle(fontSize: 10),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -70,36 +91,46 @@ class _MessagesState extends ConsumerState<Messages> {
                 },
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: TextField(
-                        onChanged: (value) {
-                          sendMessage = value;
-                        },
+            SizedBox(
+              height: 60,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10))),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: TextField(
+                            decoration:
+                                const InputDecoration(border: InputBorder.none),
+                            onChanged: (value) {
+                              sendMessage = value;
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        reverse = false;
-                        messages.add(sendMessage);
-                      });
-                    },
-                    child: const Text("Gönder")),
-                const SizedBox(
-                  width: 8,
-                )
-              ],
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          reverse = false;
+                          sendMessage != null
+                              ? ref.watch(messageRef).sendMessage(sendMessage!)
+                              : null;
+                        });
+                      },
+                      child: const Text("Gönder")),
+                  const SizedBox(
+                    width: 8,
+                  )
+                ],
+              ),
             ),
           ],
         ));

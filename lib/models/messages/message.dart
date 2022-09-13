@@ -3,12 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Message extends ChangeNotifier {
   List<SendMessage> m = [
-    SendMessage(
-        "Yusuf", "Keçer", DateTime.now().subtract(const Duration(minutes: 1))),
+    SendMessage("Yusuf", "Keçer", DateTime.now()),
     SendMessage("Yusuwqef", "Kesdfçer", DateTime.now()),
     SendMessage("Yusasduf", "Keçeasdr", DateTime.now()),
-    SendMessage("Yuadfsuf", "Kadeçer",
-        DateTime.now().subtract(const Duration(minutes: 1))),
+    SendMessage("Yuadfsuf", "Kadeçer", DateTime.now()),
   ];
   int? messageCount;
 
@@ -22,6 +20,11 @@ class Message extends ChangeNotifier {
     messageCount;
     notifyListeners();
   }
+
+  sendMessage(String value) {
+    m.add(SendMessage(value, "", DateTime.now()));
+    notifyListeners();
+  }
 }
 
 final messageRef = ChangeNotifierProvider((ref) {
@@ -32,7 +35,6 @@ class SendMessage {
   String? text;
   String? send;
   DateTime? time;
-  String? gender;
 
   SendMessage(this.text, this.send, this.time);
 }
