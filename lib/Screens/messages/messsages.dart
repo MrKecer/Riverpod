@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student/models/messages/message.dart';
+
+import '../../data/messageRepo/messageRepository.dart';
 
 class Messages extends ConsumerStatefulWidget {
   const Messages({super.key});
@@ -118,12 +119,10 @@ class _MessagesState extends ConsumerState<Messages> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        setState(() {
-                          reverse = false;
-                          sendMessage != null
-                              ? ref.watch(messageRef).sendMessage(sendMessage!)
-                              : null;
-                        });
+                        reverse = false;
+                        sendMessage != null
+                            ? ref.watch(messageRef).sendMessage(sendMessage!)
+                            : null;
                       },
                       child: const Text("Gönder")),
                   const SizedBox(

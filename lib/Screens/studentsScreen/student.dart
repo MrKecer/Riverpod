@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student/models/studentsRepo/studentsRepo.dart';
+import 'package:student/service/service.dart';
+
+import '../../data/studentRepo/studentRepository.dart';
 
 class StudentsList extends ConsumerWidget {
-  StudentsList({super.key});
+  const StudentsList({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                ref.read(studentProvider).download();
+                ref.watch(dataServiceProvider).i =
+                    ref.watch(dataServiceProvider).i + 1;
+              },
+              icon: const Icon(Icons.download_for_offline_outlined))
+        ],
         centerTitle: true,
         title: const Text("Öğrenci Mobil Uygulaması"),
       ),

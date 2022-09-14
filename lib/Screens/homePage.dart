@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student/Screens/messages/messsages.dart';
 import 'package:student/Screens/studentsScreen/student.dart';
-
-import 'package:student/models/messages/message.dart';
-import 'package:student/models/studentsRepo/studentsRepo.dart';
+import '../data/messageRepo/messageRepository.dart';
 
 class MyHomePage extends ConsumerWidget {
   const MyHomePage({
@@ -13,7 +11,6 @@ class MyHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final studentsRepo = ref.watch(studentProvider);
     final messageRepo = ref.watch(messageRef);
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +52,7 @@ class MyHomePage extends ConsumerWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => StudentsList(),
+        builder: (context) => const StudentsList(),
       ),
     );
   }
@@ -64,7 +61,7 @@ class MyHomePage extends ConsumerWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return Messages();
+          return const Messages();
         },
       ),
     );
