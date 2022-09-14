@@ -24,7 +24,7 @@ class StudentsRepo extends ChangeNotifier {
     return iLove.contains(students);
   }
 
-  void download() async {
+  download() async {
     Students students = await dataService.studentDownload();
 
     student.add(students);

@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student/service/service.dart';
@@ -10,14 +13,8 @@ class StudentsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                ref.read(studentProvider).download();
-                ref.watch(dataServiceProvider).i =
-                    ref.watch(dataServiceProvider).i + 1;
-              },
-              icon: const Icon(Icons.download_for_offline_outlined))
+        actions: const [
+          DownloadButton(),
         ],
         centerTitle: true,
         title: const Text("Öğrenci Mobil Uygulaması"),
@@ -56,5 +53,41 @@ class StudentsList extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class DownloadButton extends ConsumerStatefulWidget {
+  const DownloadButton({super.key});
+
+  @override
+  ConsumerState<DownloadButton> createState() => _DownloadButtonState();
+}
+
+class _DownloadButtonState extends ConsumerState<DownloadButton> {
+  bool loading = false;
+  @override
+  Widget build(BuildContext context) {
+    return loading
+        ? Transform.scale(
+            scale: 0.5,
+            child: const CircularProgressIndicator(
+              color: Colors.red,
+            ),
+          )
+        : IconButton(
+            onPressed: () async {
+              setState(() {
+                loading = true;
+              });
+
+              await ref.read(studentProvider).download();
+              ref.watch(dataServiceProvider).i =
+                  ref.watch(dataServiceProvider).i + 1;
+
+              setState(() {
+                loading = false;
+              });
+            },
+            icon: const Icon(Icons.download_for_offline_outlined));
   }
 }

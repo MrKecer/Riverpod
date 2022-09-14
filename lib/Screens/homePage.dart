@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student/Screens/messages/messsages.dart';
-import 'package:student/Screens/studentsScreen/student.dart';
+import 'package:student/screens/messages/messsages.dart';
+import 'package:student/screens/studentsScreen/student.dart';
 import '../data/messageRepo/messageRepository.dart';
 
 class MyHomePage extends ConsumerWidget {
