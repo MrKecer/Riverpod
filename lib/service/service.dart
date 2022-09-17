@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student/models/studentsRepo/students.dart';
+import 'package:student/models/students/students.dart';
 import 'package:http/http.dart' as http;
 
 class DataService {
@@ -11,6 +10,21 @@ class DataService {
     final http.Response response = await http.get(Uri.parse("$url/$i"));
 
     return Students.fromJson(jsonDecode(response.body));
+  }
+
+  Future<void> studentAdd(Students n) async {
+    final response = await http.post(
+      Uri.parse("$url/"),
+      headers: <String, String>{
+        "Content-Type": "application/jspn; charset=UTF-8",
+      },
+      body: jsonEncode(n.fromMap()),
+    );
+    if (response.statusCode == 201) {
+      return;
+    } else {
+      throw Exception('Failed to add student.');
+    }
   }
 }
 

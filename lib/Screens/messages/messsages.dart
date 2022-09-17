@@ -39,6 +39,7 @@ class _MessagesState extends ConsumerState<Messages> {
           title: const Text("Mesajlar"),
         ),
         body: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               child: ListView.builder(
@@ -46,44 +47,31 @@ class _MessagesState extends ConsumerState<Messages> {
                 itemCount: ref.watch(messageRef).m.length,
                 itemBuilder: (context, index) {
                   bool? me = Random().nextBool();
-                  return SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: me == true
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: DecoratedBox(
-                          decoration: const BoxDecoration(
-                            color: Colors.greenAccent,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            // border: Border.all(color: Colors.green, width: 2),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                      "${ref.watch(messageRef).m[index].text}"),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "${ref.watch(messageRef).m[index].time!.hour}"
-                                      ":"
-                                      "${ref.watch(messageRef).m[index].time!.minute}",
-                                      style: const TextStyle(fontSize: 10),
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                ],
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: me == true
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                          color: Colors.greenAccent,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          // border: Border.all(color: Colors.green, width: 2),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          child: Column(
+                            children: [
+                              Text(
+                                "${ref.watch(messageRef).m[index].text}\n"
+                                "${ref.watch(messageRef).m[index].time!.hour}"
+                                ":"
+                                "${ref.watch(messageRef).m[index].time!.minute}",
+                                textAlign: TextAlign.end,
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ),

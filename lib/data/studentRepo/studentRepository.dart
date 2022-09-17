@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student/service/service.dart';
 
-import '../../models/studentsRepo/students.dart';
+import '../../models/students/students.dart';
 
 class StudentsRepo extends ChangeNotifier {
   List<Students> student = [

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:student/screens/studentsScreen/studentAdd.dart';
 import 'package:student/service/service.dart';
 
 import '../../data/studentRepo/studentRepository.dart';
@@ -21,7 +22,10 @@ class StudentsList extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          const Text("Öğrenciler"),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("Öğrenciler", textScaleFactor: 1.7),
+          ),
           Expanded(
               child: ListView.separated(
             separatorBuilder: (context, index) => const Divider(),
@@ -49,7 +53,13 @@ class StudentsList extends ConsumerWidget {
                         : const Icon(Icons.favorite_border_outlined)),
               );
             },
-          ))
+          )),
+          ElevatedButton(
+              onPressed: (() {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const StudnetAdd()));
+              }),
+              child: const Text("Öğrenci Ekle"))
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Students {
   String? name;
   String? surname;
@@ -10,5 +12,14 @@ class Students {
     surname = json["surname"];
     age = json["age"];
     gender = json["gender"];
+  }
+
+  Map fromMap() {
+    return {
+      "name": name,
+      "surname": surname,
+      "age": age.toString(),
+      "gender": gender,
+    };
   }
 }
