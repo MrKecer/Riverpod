@@ -1,4 +1,4 @@
-# student
+# Riverpod
 
 A new Flutter project.
 
